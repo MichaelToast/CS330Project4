@@ -9,7 +9,17 @@ public class Grid {
 		this.rows = rowList;
 	}
 	
+	public ArrayList<Row> getRows() {
+		return rows;
+	}
+
+	public void setRows(ArrayList<Row> rows) {
+		this.rows = rows;
+	}
+
+	public String toString() {
+		return "Grid [rows=" + rows + "]";
+	}
 	
-	// Need methods of: getRows(), setRows()
 
 }

@@ -5,23 +5,64 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class Cell {
-	CellComponents exit;
-	CellComponents aperture;
-	CellComponents wall;
-	CellComponents wall2;
+	CellComponents left;
+	CellComponents right;
+	CellComponents up;
+	CellComponents down;
 	
 
 	// Constructor needs to follow: CellComponents.WALL, CellComponents.EXIT, CellComponents.APERTURE, CellComponents.WALL
-	public Cell(CellComponents wall, CellComponents exit, CellComponents aperture, CellComponents wall2) {
-		this.exit = exit;
-		this.aperture = aperture;
-		this.wall = wall;
-		this.wall2 = wall2;
+	public Cell(CellComponents left, CellComponents right, CellComponents up, CellComponents down) {
+		this.left = left;
+		this.right = right;
+		this.up = up;
+		this.down = down;
 	}
-	
-	// Need methods of: getLeft(), getRight(), getUp(), getDown()
-	
-	// To string needs to result in: assertEquals("Cell [left=" + cell.getLeft() + ", right=" + cell.getRight() + ", up=" + cell.getUp() + ", down=" + cell.getDown() + "]", cell.toString());
 
+
+	public CellComponents getLeft() {
+		return left;
+	}
+
+
+	public void setLeft(CellComponents left) {
+		this.left = left;
+	}
+
+
+	public CellComponents getRight() {
+		return right;
+	}
+
+
+	public void setRight(CellComponents right) {
+		this.right = right;
+	}
+
+
+	public CellComponents getUp() {
+		return up;
+	}
+
+
+	public void setUp(CellComponents up) {
+		this.up = up;
+	}
+
+
+	public CellComponents getDown() {
+		return down;
+	}
+
+
+	public void setDown(CellComponents down) {
+		this.down = down;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Cell [left=" + left + ", right=" + right + ", up=" + up + ", down=" + down + "]";
+	}
 	
 }

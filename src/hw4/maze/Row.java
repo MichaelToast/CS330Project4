@@ -3,7 +3,7 @@ package hw4.maze;
 import java.util.ArrayList;
 
 public class Row {
-	ArrayList<Cell> cells;
+	private ArrayList<Cell> cells;
 
 	public Row(ArrayList<Cell> cells) {
 		this.cells = cells;

@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class Cell {
-	CellComponents left;
-	CellComponents right;
-	CellComponents up;
-	CellComponents down;
+	private CellComponents left;
+	private CellComponents right;
+	private CellComponents up;
+	private CellComponents down;
 	
 
 	// Constructor needs to follow: CellComponents.WALL, CellComponents.EXIT, CellComponents.APERTURE, CellComponents.WALL

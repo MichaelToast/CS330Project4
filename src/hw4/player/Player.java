@@ -16,9 +16,20 @@ public class Player {
 		return currentRow;
 	}
 
+	public void setCurrentRow(Row currentRow) {
+		this.currentRow = currentRow;
+	}
 
 	public Cell getCurrentCell() {
 		return currentCell;
 	}
-
+	
+	public void setCurrentCell(Cell currentCell) {
+		this.currentCell = currentCell;
+	}
+	
+	@Override
+	public String toString() {
+		return "Player [currentCell=" + currentCell + ", currentRow=" + currentRow + "]";
+	}
 }

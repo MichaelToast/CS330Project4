@@ -97,12 +97,19 @@ public class Game {
     private boolean moveLeft(Player player) {
         int rowIndex = getRowIndex(player);
         int columnIndex = getColumnIndex(player);
-        if(columnIndex > 0 && player.getCurrentCell().getLeft() == CellComponents.APERTURE){
+    
+        if (columnIndex > 0 && player.getCurrentCell().getLeft() == CellComponents.APERTURE) {
             updatePosition(player, rowIndex, columnIndex - 1);
             return true;
         }
+    
+        if (columnIndex == 0 && player.getCurrentCell().getLeft() == CellComponents.EXIT) {
+            return true;
+        }
+    
         return false;
     }
+    
 
     private int getRowIndex(Player player) {
         return  grid.getRows().indexOf(player.getCurrentRow());

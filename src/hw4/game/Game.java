@@ -126,15 +126,15 @@ public class Game {
      * @return A valid grid if size is valid, otherwise null.
      */
     public Grid createRandomGrid(int size) {
-    if (size < 3 || size > 7) return null;
-
-    Cell[][] cells = initializeEmptyCells(size);
-    placeExit(cells);
-    populateCellComponents(cells);
-    ensureEachCellHasAperture(cells);
-
-    return convertToGrid(cells);
-}
+	    if (size < 3 || size > 7) return null;
+	
+	    Cell[][] cells = initializeEmptyCells(size);
+	    placeExit(cells);
+	    populateCellComponents(cells);
+	    ensureEachCellHasAperture(cells);
+	
+	    return convertToGrid(cells);
+    }
 
     /**
      * Initializes a 2D array of Cells with the given size.
@@ -142,94 +142,101 @@ public class Game {
      * @param size: The size of the grid
      * @return A 2D array of Cells, initialized with all null components
      */
-private Cell[][] initializeEmptyCells(int size) {
-    Cell[][] cells = new Cell[size][size];
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            cells[i][j] = new Cell(null, null, null, null);
-        }
+    private Cell[][] initializeEmptyCells(int size) {
+	    Cell[][] cells = new Cell[size][size];
+	    for (int i = 0; i < size; i++) {
+	        for (int j = 0; j < size; j++) {
+	            cells[i][j] = new Cell(null, null, null, null);
+	        }
+	    }
+	    return cells;
     }
-    return cells;
-}
+	
+	private void placeExit(Cell[][] cells) {
+	    Random rand = new Random();
+	    int exitRow = rand.nextInt(cells.length);
+	    cells[exitRow][0].setLeft(CellComponents.EXIT);
+	}
+	
+	private void populateCellComponents(Cell[][] cells) {
+	    Random rand = new Random();
+	    int size = cells.length;
+	
+	    for (int i = 0; i < size; i++) {
+	        for (int j = 0; j < size; j++) {
+	            Cell current = cells[i][j];
+	
+	            // UP
+	            if (i > 0) {
+	                current.setUp(cells[i - 1][j].getDown());
+	            } else {
+	                current.setUp(randomComponent(rand));
+	            }
+	
+	            // LEFT
+	            if (j > 0) {
+	                current.setLeft(cells[i][j - 1].getRight());
+	            } else if (current.getLeft() != CellComponents.EXIT) {
+	                current.setLeft(randomComponent(rand));
+	            }
+	
+	            // RIGHT
+	            if (j < size - 1) {
+	                current.setRight(randomComponent(rand));
+	            }
+	
+	            // DOWN
+	            if (i < size - 1) {
+	                current.setDown(randomComponent(rand));
+	            }
+	        }
+	    }
+	}
+	
+	private void ensureEachCellHasAperture(Cell[][] cells) {
+	    for (int i = 0; i < cells.length; i++) {
+	        for (int j = 0; j < cells[i].length; j++) {
+	            Cell cell = cells[i][j];
+	            if (!hasAtLeastOneAperture(cell)) {
+	                if (j < cells[i].length - 1) {
+	                    cell.setRight(CellComponents.APERTURE);
+	                } else {
+	                    cell.setLeft(CellComponents.APERTURE);
+	                }
+	            }
+	        }
+	    }
+	}
 
-private void placeExit(Cell[][] cells) {
-    Random rand = new Random();
-    int exitRow = rand.nextInt(cells.length);
-    cells[exitRow][0].setLeft(CellComponents.EXIT);
-}
-
-private void populateCellComponents(Cell[][] cells) {
-    Random rand = new Random();
-    int size = cells.length;
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            Cell current = cells[i][j];
-
-            // UP
-            if (i > 0) {
-                current.setUp(cells[i - 1][j].getDown());
-            } else {
-                current.setUp(randomComponent(rand));
-            }
-
-            // LEFT
-            if (j > 0) {
-                current.setLeft(cells[i][j - 1].getRight());
-            } else if (current.getLeft() != CellComponents.EXIT) {
-                current.setLeft(randomComponent(rand));
-            }
-
-            // RIGHT
-            if (j < size - 1) {
-                current.setRight(randomComponent(rand));
-            }
-
-            // DOWN
-            if (i < size - 1) {
-                current.setDown(randomComponent(rand));
-            }
-        }
-    }
-}
-
-private void ensureEachCellHasAperture(Cell[][] cells) {
-    for (int i = 0; i < cells.length; i++) {
-        for (int j = 0; j < cells[i].length; j++) {
-            Cell cell = cells[i][j];
-            if (!hasAtLeastOneAperture(cell)) {
-                if (j < cells[i].length - 1) {
-                    cell.setRight(CellComponents.APERTURE);
-                } else {
-                    cell.setLeft(CellComponents.APERTURE);
-                }
-            }
-        }
-    }
-}
-
-private Grid convertToGrid(Cell[][] cells) {
-    ArrayList<Row> rows = new ArrayList<>();
-    for (int i = 0; i < cells.length; i++) {
-        ArrayList<Cell> rowCells = new ArrayList<>();
-        for (int j = 0; j < cells[i].length; j++) {
-            rowCells.add(cells[i][j]);
-        }
-        rows.add(new Row(rowCells));
-    }
-    return new Grid(rows);
-}
+	private Grid convertToGrid(Cell[][] cells) {
+	    ArrayList<Row> rows = new ArrayList<>();
+	    for (int i = 0; i < cells.length; i++) {
+	        ArrayList<Cell> rowCells = new ArrayList<>();
+	        for (int j = 0; j < cells[i].length; j++) {
+	            rowCells.add(cells[i][j]);
+	        }
+	        rows.add(new Row(rowCells));
+	    }
+	    return new Grid(rows);
+	}
 
 
-private CellComponents randomComponent(Random rand) {
-    return rand.nextBoolean() ? CellComponents.APERTURE : CellComponents.WALL;
-}
-    
-private boolean hasAtLeastOneAperture(Cell cell) {
-    return cell.getLeft() == CellComponents.APERTURE ||
-            cell.getRight() == CellComponents.APERTURE ||
-            cell.getUp() == CellComponents.APERTURE ||
-            cell.getDown() == CellComponents.APERTURE;
-}
+	private CellComponents randomComponent(Random rand) {
+	    return rand.nextBoolean() ? CellComponents.APERTURE : CellComponents.WALL;
+	}
+	    
+	private boolean hasAtLeastOneAperture(Cell cell) {
+	    return cell.getLeft() == CellComponents.APERTURE ||
+	            cell.getRight() == CellComponents.APERTURE ||
+	            cell.getUp() == CellComponents.APERTURE ||
+	            cell.getDown() == CellComponents.APERTURE;
+	}
+	
+	@Override
+	public String toString() {
+		return "Game [grid=" + grid + "]";
+	}
+	
+	
 
 }

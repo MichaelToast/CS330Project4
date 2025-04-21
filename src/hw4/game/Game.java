@@ -33,7 +33,7 @@ public class Game {
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
-///////////////////////////////////////////////////
+    
     public  boolean play(Player player, Movement movement) {
         if (movement == null || player  == null) {
             return false;

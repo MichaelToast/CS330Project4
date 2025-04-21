@@ -28,25 +28,33 @@ public class Cell {
     public void setLeft(CellComponents left) {
         if (left != null) {
             this.left = left;
+            return; 
         }
+        this.right = CellComponents.WALL;
     }
     
     public void setRight(CellComponents right) {
         if (right != null) {
             this.right = right;
+            return; 
         }
+        this.right = CellComponents.WALL;
     }
 
     public void setUp(CellComponents up) {
         if (up != null) {
             this.up = up;
+            return; 
         }
+        this.right = CellComponents.WALL;
     }
     
     public void setDown(CellComponents down) {
         if (down != null) {
             this.down = down;
+            return; 
         }
+        this.right = CellComponents.WALL;
     }
 
     /**

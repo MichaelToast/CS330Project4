@@ -15,6 +15,10 @@ public class Row {
 
 	public void setCells(ArrayList<Cell> cells) {
 		this.cells = cells;
+		if (cells == null) {
+			this.cells = null;
+			return; 
+		}
 	}
 		
 

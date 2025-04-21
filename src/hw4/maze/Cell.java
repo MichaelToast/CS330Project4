@@ -30,7 +30,7 @@ public class Cell {
             this.left = left;
             return; 
         }
-        this.right = CellComponents.WALL;
+        this.left = CellComponents.WALL;
     }
     
     public void setRight(CellComponents right) {
@@ -46,7 +46,7 @@ public class Cell {
             this.up = up;
             return; 
         }
-        this.right = CellComponents.WALL;
+        this.up = CellComponents.WALL;
     }
     
     public void setDown(CellComponents down) {
@@ -54,7 +54,7 @@ public class Cell {
             this.down = down;
             return; 
         }
-        this.right = CellComponents.WALL;
+        this.down = CellComponents.WALL;
     }
 
     /**

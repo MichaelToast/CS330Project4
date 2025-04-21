@@ -20,6 +20,11 @@ public class Row {
 			return; 
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Row [cells=" + cells + "]";
+	}
 		
 
 }

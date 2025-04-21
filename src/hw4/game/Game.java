@@ -12,13 +12,22 @@ import hw4.player.Movement;
 
 public class Game {
     private Grid grid;
-
+    /** 
+     * Constructs a game using a randomly generated grid.
+     * @param grid: The grid to use for this game.
+    */
     public Game(Grid grid) {
         this.grid = grid;
     }
-    
+    /**
+     * Constructs a game with a randomly generated grid of the given size.
+     * If the size is invalid (<3 or >7), the grid will be null.
+     *
+     * @param size:
+     * The size of the grid (must be between 3 and 7 inclusive).
+     */
     public Game(int size){
-        if (size > 3 && size <= 7){
+        if (size >= 3 && size <= 7){
             this.grid = createRandomGrid(size);
         }
         else{
@@ -33,8 +42,15 @@ public class Game {
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
-    
-    public  boolean play(Player player, Movement movement) {
+
+    /**
+     * Attempts to move the player in the specified direction.
+     *
+     * @param movement: The direction to move.
+     * @param player:   The player to move.
+     * @return true if the move was successful, false otherwise.
+     */
+    public  boolean play(Movement movement, Player player) {
         if (movement == null || player  == null) {
             return false;
         }
@@ -47,36 +63,45 @@ public class Game {
         }
     }
 
+    //Helper functions for movement
     private boolean moveUp(Player player) {
         int rowIndex = getRowIndex(player);
         int columnIndex = getColumnIndex(player);
-        if(rowIndex > 0 && player..getCurrCell().getUp() == CellComponents.APERTURE){
+        if(rowIndex > 0 && player.getCurrentCell().getUp() == CellComponents.APERTURE){
             updatePosition(player, rowIndex - 1, columnIndex);
+            return true;
         }
+        return false;
     }
 
     private boolean moveRight(Player player) {
         int rowIndex = getRowIndex(player);
         int columnIndex = getColumnIndex(player);
-        if(columnIndex < grid.getRows().get(0).getCells().size() - 1 && player..getCurrCell().getRight() == CellComponents.APERTURE){
+        if(columnIndex < grid.getRows().get(0).getCells().size() - 1 && player.getCurrentCell().getRight() == CellComponents.APERTURE){
             updatePosition(player, rowIndex, columnIndex + 1);
+            return true;
         }
+        return false;
     }
 
     private boolean moveDown(Player player) {
         int rowIndex = getRowIndex(player);
         int columnIndex = getColumnIndex(player);
-        if(rowIndex < grid.getRows().size() - 1 && player..getCurrCell().getDown() == CellComponents.APERTURE){
+        if(rowIndex < grid.getRows().size() - 1 && player.getCurrentCell().getDown() == CellComponents.APERTURE){
             updatePosition(player, rowIndex + 1, columnIndex);
+            return true;
         }
+        return false;
     }
 
     private boolean moveLeft(Player player) {
         int rowIndex = getRowIndex(player);
         int columnIndex = getColumnIndex(player);
-        if(columnIndex > 0 && player..getCurrCell().getLeft() == CellComponents.APERTURE){
+        if(columnIndex > 0 && player.getCurrentCell().getLeft() == CellComponents.APERTURE){
             updatePosition(player, rowIndex, columnIndex - 1);
+            return true;
         }
+        return false;
     }
 
     private int getRowIndex(Player player) {
@@ -92,8 +117,15 @@ public class Game {
         player.setCurrentRow(currRow);
         player.setCurrentCell(currRow.getCells().get(column));
     }
-///////////////////////////////////////////////////
-public Grid createRandomGrid(int size) {
+
+    /**
+     * Generates a valid random grid of the given size.
+     * Ensures exactly one EXIT and valid adjacent components.
+     *
+     * @param size: The grid size (between 3 and 7 inclusive).
+     * @return A valid grid if size is valid, otherwise null.
+     */
+    public Grid createRandomGrid(int size) {
     if (size < 3 || size > 7) return null;
 
     Cell[][] cells = initializeEmptyCells(size);
@@ -104,6 +136,12 @@ public Grid createRandomGrid(int size) {
     return convertToGrid(cells);
 }
 
+    /**
+     * Initializes a 2D array of Cells with the given size.
+     * Each cell is initialized with all null cell components.
+     * @param size: The size of the grid
+     * @return A 2D array of Cells, initialized with all null components
+     */
 private Cell[][] initializeEmptyCells(int size) {
     Cell[][] cells = new Cell[size][size];
     for (int i = 0; i < size; i++) {
@@ -160,7 +198,6 @@ private void ensureEachCellHasAperture(Cell[][] cells) {
         for (int j = 0; j < cells[i].length; j++) {
             Cell cell = cells[i][j];
             if (!hasAtLeastOneAperture(cell)) {
-                // Preferably adjust RIGHT if possible
                 if (j < cells[i].length - 1) {
                     cell.setRight(CellComponents.APERTURE);
                 } else {

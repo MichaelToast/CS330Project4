@@ -1,5 +1,4 @@
 package hw4.maze;
-
 public class Cell {
     private CellComponents left, right, up, down;
 
@@ -50,6 +49,12 @@ public class Cell {
         }
     }
 
+    /**
+     * Returns a string representation of this cell, in the form of
+     * "Cell [left=<left>, right=<right>, up=<up>, down=<down>]".
+     * 
+     * @return a string representation of this cell
+     */
     public String toString() {
         return "Cell [left=" + left + ", right=" + right + ", up=" + up + ", down=" + down + "]";
     }

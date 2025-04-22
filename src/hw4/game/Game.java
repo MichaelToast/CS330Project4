@@ -186,26 +186,34 @@ public class Game {
                 }
     
                 if (j < size - 1) {
-                    current.setRight(randomComponent(rand));
+                    CellComponents right = randomComponent(rand);
+                    current.setRight(right);
                 }
     
                 if (i < size - 1) {
-                    current.setDown(randomComponent(rand));
+                    CellComponents down = randomComponent(rand);
+                    current.setDown(down);
                 }
             }
         }
     
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
+                Cell current = cells[i][j];
+    
                 if (j < size - 1) {
-                    cells[i][j + 1].setLeft(cells[i][j].getRight());
+                    Cell rightNeighbor = cells[i][j + 1];
+                    rightNeighbor.setLeft(current.getRight());
                 }
+    
                 if (i < size - 1) {
-                    cells[i + 1][j].setUp(cells[i][j].getDown());
+                    Cell downNeighbor = cells[i + 1][j];
+                    downNeighbor.setUp(current.getDown());
                 }
             }
         }
     }
+    
 	
 	private void ensureEachCellHasAperture(Cell[][] cells) {
 	    for (int i = 0; i < cells.length; i++) {

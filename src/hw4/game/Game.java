@@ -179,21 +179,22 @@ public class Game {
 	        for (int j = 0; j < size; j++) {
 	            Cell current = cells[i][j];
 
-	            // Assign Up component for the current cell
+	            // Assign Up component
 	            if (i > 0) {
-	                current.setUp(cells[i - 1][j].getDown());  // Ensures consistency with the cell above
+	                current.setUp(cells[i - 1][j].getDown());
 	            } else {
-	                current.setUp(randomComponent(rand));  // If it's the topmost row, set a random Up
+	                current.setUp(randomComponent(rand));
 	            }
 
-	            // Assign Left component for the current cell
+	            // Assign Left component
 	            if (j > 0) {
-	                current.setLeft(cells[i][j - 1].getRight());  // Ensures consistency with the cell to the left
+	                current.setLeft(cells[i][j - 1].getRight());
 	            } else {
-	                // If it's the first column, we ensure the leftmost cell has EXIT
+	                // If first column, we ensure the leftmost cell has EXIT
 	                if (!exitPlaced) {
-	                    current.setLeft(CellComponents.EXIT);  // Place the EXIT on the first cell
-	                    exitPlaced = true;  // Ensure only one EXIT in the grid
+	                	 // Place the EXIT on the first cell
+	                    current.setLeft(CellComponents.EXIT);
+	                    exitPlaced = true;
 	                } else {
 	                    // Ensure Left is not EXIT, and assign randomly
 	                    if (current.getLeft() != CellComponents.EXIT) {
@@ -202,7 +203,7 @@ public class Game {
 	                }
 	            }
 
-	            // Assign Right component for the current cell and ensure consistency with the adjacent cell
+	            // Assign Right component
 	            if (j < size - 1) {
 	                // Ensure the Right component is the same as the Left of the adjacent cell
 	                CellComponents right = randomComponent(rand);
@@ -210,7 +211,7 @@ public class Game {
 	                cells[i][j + 1].setLeft(right);
 	            }
 
-	            // Assign Down component for the current cell and ensure consistency with the cell below
+	            // Assign Down component
 	            if (i < size - 1) {
 	                // Ensure the Down component is the same as the Up of the next cell
 	                CellComponents down = randomComponent(rand);

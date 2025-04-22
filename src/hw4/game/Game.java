@@ -165,40 +165,41 @@ public class Game {
 	    cells[exitRow][0].setLeft(CellComponents.EXIT);
 	}
 	
-	private void populateCellComponents(Cell[][] cells) {
-	    Random rand = new Random();
-	    int size = cells.length;
-	
-	    for (int i = 0; i < size; i++) {
-	        for (int j = 0; j < size; j++) {
-	            Cell current = cells[i][j];
-	
-	            // UP
-	            if (i > 0) {
-	                current.setUp(cells[i - 1][j].getDown());
-	            } else {
-	                current.setUp(randomComponent(rand));
-	            }
-	
-	            // LEFT
-	            if (j > 0) {
-	                current.setLeft(cells[i][j - 1].getRight());
-	            } else if (current.getLeft() != CellComponents.EXIT) {
-	                current.setLeft(randomComponent(rand));
-	            }
-	
-	            // RIGHT
-	            if (j < size - 1) {
-	                current.setRight(randomComponent(rand));
-	            }
-	
-	            // DOWN
-	            if (i < size - 1) {
-	                current.setDown(randomComponent(rand));
-	            }
-	        }
-	    }
-	}
+    private void populateCellComponents(Cell[][] cells) {
+        Random rand = new Random();
+        int size = cells.length;
+    
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Cell current = cells[i][j];
+    
+                if (i > 0) {
+                    current.setUp(cells[i - 1][j].getDown());
+                } else {
+                    current.setUp(randomComponent(rand));
+                }
+    
+                if (j > 0) {
+                    current.setLeft(cells[i][j - 1].getRight());
+                } else if (current.getLeft() != CellComponents.EXIT) {
+                    current.setLeft(randomComponent(rand));
+                }
+    
+                if (j < size - 1) {
+                    CellComponents right = randomComponent(rand);
+                    current.setRight(right);
+                    cells[i][j + 1].setLeft(right);
+                }
+    
+                if (i < size - 1) {
+                    CellComponents down = randomComponent(rand);
+                    current.setDown(down);
+                    cells[i + 1][j].setUp(down);
+                }
+            }
+        }
+    }
+    
 	
 	private void ensureEachCellHasAperture(Cell[][] cells) {
 	    for (int i = 0; i < cells.length; i++) {

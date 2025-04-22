@@ -136,10 +136,11 @@ public class Game {
 	    if (size < 3 || size > 7) return null;
 	    
 	    Cell[][] cells = initializeEmptyCells(size);
-	    //placeExit(cells);
+	    
 	    
 	    populateCellComponents(cells);
-	    ensureEachCellHasAperture(cells);
+	    placeExit(cells);
+	    //ensureEachCellHasAperture(cells);
 	    Grid g = convertToGrid(cells);
 
 	    return g;
@@ -168,56 +169,50 @@ public class Game {
 	}
 	
 	private void populateCellComponents(Cell[][] cells) {
-	    Random rand = new Random(50);
+	    Random rand = new Random();
 	    int size = cells.length;
-
-	    // Ensure EXIT is at the leftmost side of the grid
-	    boolean exitPlaced = false;
 	    
 	    // Iterate through each cell in the grid and set components
 	    for (int i = 0; i < size; i++) {
 	        for (int j = 0; j < size; j++) {
 	            Cell current = cells[i][j];
 
-	            // Assign Up component
-	            if (i > 0) {
-	                current.setUp(cells[i - 1][j].getDown());
-	            } else {
-	                current.setUp(randomComponent(rand));
-	            }
-
-	            // Assign Left component
-	            if (j > 0) {
-	                current.setLeft(cells[i][j - 1].getRight());
-	            } else {
-	                // If first column, we ensure the leftmost cell has EXIT
-	                if (!exitPlaced) {
-	                	 // Place the EXIT on the first cell
-	                    current.setLeft(CellComponents.EXIT);
-	                    exitPlaced = true;
-	                } else {
-	                    // Ensure Left is not EXIT, and assign randomly
-	                    if (current.getLeft() != CellComponents.EXIT) {
-	                        current.setLeft(randomComponent(rand));
-	                    }
-	                }
-	            }
-
-	            // Assign Right component
-	            if (j < size - 1) {
-	                // Ensure the Right component is the same as the Left of the adjacent cell
-	                CellComponents right = randomComponent(rand);
-	                current.setRight(right);
-	                cells[i][j + 1].setLeft(right);
-	            }
-
+	            
 	            // Assign Down component
 	            if (i < size - 1) {
-	                // Ensure the Down component is the same as the Up of the next cell
+	                // If I am not on the last one, make the down component the up of what is under me
 	                CellComponents down = randomComponent(rand);
 	                current.setDown(down);
-	                cells[i + 1][j].setUp(down);
+	                //cells[i + 1][j].setUp(down);
 	            }
+	            
+	            // Assign Up component
+	            if (i > 0) {
+	            	// We are not on the first row, so we can go up
+	                current.setUp(cells[i - 1][j].getDown());
+	            }
+	            else {
+	            	current.setUp(randomComponent(rand));
+	            }
+	            
+
+	            if (j < size) {
+	            	//changed from size - 1
+	                // If we have room to the right, set a random value. 
+	                current.setRight(randomComponent(rand));
+	            }
+	            
+	            if (j > 0) {
+	            	// Not on the left most column, set my left to my neighboors right
+	                current.setLeft(cells[i][j - 1].getRight());
+	            }
+	            else {
+	            	// Are on the left most, give a wall
+	            	current.setLeft(CellComponents.WALL);
+	            }
+	            
+	            
+
 	        }
 	    }
 	}
